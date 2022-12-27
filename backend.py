@@ -53,10 +53,10 @@ def extract_text():
         chatbot_response = response.text
 
         # Render the HTML template with the extracted text and ChatGPT response
-        return render_template('index.html', extracted_text=extracted_text, chatbot_response=chatbot_response)
+        return render_template('frontend_template.html', extracted_text=extracted_text, chatbot_response=chatbot_response)
     else:
         # Render the HTML template for the GET request
-        return render_template('index.html')
+        return render_template('frontend_template.html')
 
 if __name__ == '__main__':
     app.run()
