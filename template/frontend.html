@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<!-- frontend.html -->
+
+<html>
+  <head>
+    <title>PDF OCR and Chatbot</title>
+    <style>
+      /* Add your CSS styles here */
+      body {
+        font-family: Arial, sans-serif;
+      }
+      form {
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      input[type="file"] {
+        display: inline-block;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      input[type="text"] {
+        width: 50%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+      .extracted-text {
+        margin: 20px 0;
+        background-color: #eee;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-wrap: break-word;
+      }
+      .chatbot-response {
+        margin: 20px 0;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>PDF OCR and Chatbot</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+      <label for="file">Select a PDF file:</label><br>
+      <input type="file" name="file" id="file" required><br>
+      <label for="page_numbers">Enter the page numbers (comma-separated):</label><br>
+      <input type="text" name="page_numbers" id="page_numbers" required><br>
+      <input type="submit" value="Summarize">
+    </form>
+    {% if extracted_text %}
+    <h2>Extracted Text:</h2>
+    <p>
+      {% for text in extracted_text %}
+      {{ text }}<br>
+      {% endfor %}
+    </p>
+    {% endif %}
+    {% if chatbot_response %}
+    <h2>ChatGPT Response:</h2>
+    <p>{{ chatbot_response }}</p>
+    {% endif %}
+    <script>
+      // Add your JavaScript code here
+      function updateProgress(event) {
+        var progress = document.getElementById("progress");
+        var percent = (event.loaded / event.total) * 100;
+        progress.style.width = percent + "%";
+      }
+    </script>
+  </body>
+</html>
