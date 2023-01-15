@@ -1,0 +1,42 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  #pdf-form {
+    margin-top: 20px;
+  }
+  
+  #summary-container {
+    margin-top: 20px;
+    display: none;
+  }
+  
+  #conversation {
+    margin-top: 20px;
+  }
+  
+  .message {
+    margin-bottom: 10px;
+  }
+  
+  .user-message {
+    background: #f1f0f0;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .bot-message {
+    background: #e6e6e6;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  

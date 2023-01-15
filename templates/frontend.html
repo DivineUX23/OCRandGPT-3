@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PDF Text Extraction and Summary</title>
+    </head>
+    <body>
+        <h1>PDF Text Extraction and Summary</h1>
+        
+        <form action="/" method="post" enctype="multipart/form-data">
+            <label for="pdf_file">Select a PDF file to extract text from:</label>
+            <input type="file" id="pdf_file" name="pdf_file">
+            <br>
+            <label for="page_numbers">Enter the page numbers to extract text from (separated by commas):</label>
+            <input type="text" id="page_numbers" name="page_numbers">
+            <br>
+            <input type="text" id="user_input" name="user_input">
+                <input type="submit" value="Send">
+        </form>
+
+        {% if summary %}
+            <div>
+                <h2>Response:</h2>
+                <p>{{ summary }}</p>
+            </div>
+        {% endif %}
+        
+            <form action="/conversation" method="post">
+              <br>
+                <label for="user_input">Conversation:</label>
+                <br>
+                <input type="text" id="user_input" name="user_input">
+                <input type="submit" value="Send">
+            </form>
+
+        {% if bot_response %}
+            <div>
+                <h2>Bot_response:</h2>
+                <p>{{ bot_response }}</p>
+            </div>
+        {% endif %}
+    </body>
+</html>

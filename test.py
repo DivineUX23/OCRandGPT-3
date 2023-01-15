@@ -22,6 +22,8 @@ extracted_text = []
 # Initialize an empty list to store the extracted text
 extracting_text = []
 
+user_input = []
+
 
 chatbot_response = None
 page_number = None
@@ -90,7 +92,7 @@ def extract_pdf_text():
     # Send the extracted text to ChatGPT and get the response
     user_input = request.form['user_input']
     model = "text-davinci-003"
-    prompt = user_input  + '\n'.join(extracted_text)
+    prompt = user_input + '\n' + '\n'.join(extracted_text)
         
     response = openai.Completion.create(
             engine=model,
@@ -105,34 +107,54 @@ def extract_pdf_text():
 
     global chatbot_response
     chatbot_response = response.choices[0].text
-    return render_template('frontend.html', summary=chatbot_response)
+    return render_template('frontend.html', summary=chatbot_response,)
+
+
+# Define the maximum number of characters per API request
+max_chars = 2500
+
+# Split the text into chunks
+chunks = [extracting_text[i:i+max_chars] for i in range(0, len(extracting_text), max_chars)]
+num_chunks = len(chunks)
+print(num_chunks)
+# Initialize an empty list to store the API responses
 
 
 @app.route('/conversation', methods=['POST'])
 def handle_conversation():
-    
+    global chun
+    ks
     global chatbot_response
     global page_number
+    global user_input
     # Engage in a conversation with the user about the summarized text
     #prompt = f"Here is a summary of the text:\n{chatbot_response}\n\nWhat would you like to know more about?"
 
-    user_input = request.form['user_input']
-    prompt = f"From {extracting_text}. {user_input} please specify the page or pages you got the answer. if the answer is not in the book tell me your answer and specify that the answer isn't in the book"
+    responses = []
+    for chunk in chunks:
+        user_input = request.form['user_input']
+        prompt = f"From {chunk}. {user_input} please specify the page or pages you got the answer. if the answer is not in the book tell me your answer and specify that the answer isn't in the book"
 
-    # Use GPT-3 to generate a esponse based on the user's input
-    completions = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=prompt,
-        temperature=0.9,
-        max_tokens=150,
-        top_p=1,
-        frequency_penalty=0.0,
-        presence_penalty=0.6,
-        stop=["You:"]
-    )
-    bot_response = completions.choices[0].text
-    
-    return render_template('frontend.html', summary=chatbot_response, bot_response = bot_response)
+        # Use GPT-3 to generate a response based on the user's input
+        completions = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            temperature=0.9,
+            max_tokens=150,
+            top_p=1,
+            frequency_penalty=0.0,
+            presence_penalty=0.6,
+            stop=["You:"]
+        )
+        bot_response = completions.choices[0].text
+
+        responses.append(bot_response)
+
+    # Concatenate the responses together to get the complete answer
+    complete_answer = "".join(responses)
+
+    return render_template('frontend.html', bot_response = complete_answer)
+
 
 
 if __name__ == '__main__':
